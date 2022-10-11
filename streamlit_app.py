@@ -23,8 +23,9 @@ streamlit.dataframe(fruits_to_show)
 streamlit.header('Fruityvice fruit Advice')
 
 import requests
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-streamlit.text(fruityvice_response.json()) #just writes the data on the screen
+fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+"kiwi")
+#just writes the data on the screen
+#streamlit.text(fruityvice_response.json())
 
 #to display json data in the tabular format
 fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
