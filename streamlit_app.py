@@ -24,20 +24,23 @@ fruits_selected=streamlit.multiselect('Pick some fruits":',list(my_fruit_list.in
 fruits_to_show=my_fruit_list.loc[fruits_selected]
 streamlit.dataframe(fruits_to_show)
 
+def get_fruityvice_data(user_fruit_choice):
+    #import requests
+    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+user_fruit_choice)
+    #just writes the data on the screen
+    #streamlit.text(fruityvice_response.json())
+
+    #to display json data in the tabular format
+    fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
+    return fruityvice_normalized
+
 streamlit.header('Fruityvice fruit Advice')
 try:
     fruit_choice = streamlit.text_input('what fruit would you like information about?','Kiwi')
     if fruit_choice:
         streamlit.write('The user entered',fruit_choice)
-
-        #import requests
-        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
-        #just writes the data on the screen
-        #streamlit.text(fruityvice_response.json())
-
-        #to display json data in the tabular format
-        fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
-        streamlit.dataframe(fruityvice_normalized)
+        back_from_function = get_fruityvice_data(fruit_choice)
+        streamlit.dataframe(back_from_function)
     else:
         streamlit.error('Please select a fruit to get information.')
         
